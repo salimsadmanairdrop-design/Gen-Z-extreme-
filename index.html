@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEN-Z EXTREME | Official Cyber Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <style>
+        .brand-red { color: #ff1e27; }
+        .bg-brand-red { background-color: #ff1e27; }
+        .aspect-card { aspect-ratio: 3 / 4; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0c0a09; }
+        ::-webkit-scrollbar-thumb { background: #292524; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #ff1e27; }
+        .premium-glow:hover { box-shadow: 0 0 25px rgba(255, 30, 39, 0.25); border-color: rgba(255, 30, 39, 0.4); }
+        .hero-gradient {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), #0c0a09), url('https://images.unsplash.com/photo-1509281373149-e957c6296406?q=80&w=1000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="bg-stone-950 text-stone-100 font-sans antialiased selection:bg-red-600 selection:text-white flex flex-col min-h-screen">
+
+    <div class="bg-brand-red text-white text-xs py-2 font-black tracking-widest uppercase overflow-hidden whitespace-nowrap relative z-50 shadow-md">
+        <div class="inline-block animate-[marquee_25s_linear_infinite]">
+            ⚡ STREAMED STREETWEAR DROPS &bull; GEN-Z EXTREME ARCHIVES &bull; CASH ON DELIVERY ALL OVER BANGLADESH &bull; PREMIUM FABRICS ONLY &bull; INDULGE THE UNKNOWN &bull; 
+        </div>
+    </div>
+
+    <nav class="bg-stone-950/80 backdrop-blur-md border-b border-stone-900 p-5 sticky top-0 z-40">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-black tracking-tighter uppercase cursor-pointer" onclick="window.location.reload()">
+                <span class="brand-red">GEN-Z</span> EXTREME
+            </h1>
+            <button onclick="toggleCart()" class="bg-white text-black px-6 py-2.5 rounded-full font-black hover:bg-brand-red hover:text-white transition-all duration-300 flex items-center space-x-3 transform active:scale-95 shadow-xl">
+                <span>BAG</span>
+                <span id="cart-count" class="bg-stone-950 text-white px-2.5 py-0.5 rounded-full text-xs font-mono">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <header class="hero-gradient h-[35vh] flex items-center justify-center text-center px-4 relative border-b border-stone-900">
+        <div class="absolute inset-0 bg-black/40"></div>
+        <div class="relative z-10 animate__animated animate__fadeInUp">
+            <p class="text-xs font-black tracking-[0.5em] brand-red mb-2 uppercase">SUMMER DROP // 2026</p>
+            <h2 class="text-4xl md:text-5xl font-black tracking-tight uppercase text-white mb-2">REDEFINE THY AESTHETIC</h2>
+            <div class="w-16 h-1 bg-brand-red mx-auto rounded"></div>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-10 mt-4 flex-1">
+        <div class="flex items-center space-x-4 mb-10">
+            <h2 class="text-base font-black tracking-[0.3em] uppercase text-stone-400">CATALOGUE MAP</h2>
+            <div class="flex-1 h-px bg-stone-900"></div>
+        </div>
+        <div id="product-list" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8"></div>
+    </main>
+
+    <footer class="bg-black border-t border-stone-900 mt-20 py-10 px-6">
+        <div class="container mx-auto flex flex-col items-center justify-center text-center space-y-6">
+            <div class="flex items-center space-x-6 text-xl text-stone-400">
+                <a href="https://instagram.com" target="_blank" class="hover:text-red-500 transition-colors duration-300"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://facebook.com" target="_blank" class="hover:text-red-500 transition-colors duration-300"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="https://wa.me/8801764895060" target="_blank" class="hover:text-red-500 transition-colors duration-300"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+            
+            <div class="h-px w-12 bg-stone-800"></div>
+            
+            <div class="space-y-2">
+                <p class="text-[11px] font-black tracking-[0.2em] text-stone-500 uppercase">
+                    &copy; 2026 <span class="text-stone-300">GEN-Z EXTREME</span>. ALL RIGHTS RESERVED.
+                </p>
+                <p class="text-[10px] font-mono tracking-widest text-stone-600 uppercase">
+                    DEVELOPED BY <span class="brand-red font-bold">SALIM SADMAN SHORON</span>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="product-modal" class="fixed inset-0 bg-black/95 backdrop-blur-xl hidden justify-center items-center z-50 p-4">
+        <div class="bg-stone-900 border border-stone-800 max-w-4xl w-full rounded-2xl overflow-hidden shadow-2xl p-6 relative max-h-[95vh] overflow-y-auto animate__animated animate__zoomIn animate__faster">
+            <button onclick="closeProductModal()" class="absolute top-4 right-4 text-stone-500 hover:text-white text-3xl font-light">&times;</button>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <div class="w-full aspect-card bg-stone-950 border border-stone-800 rounded-xl overflow-hidden mb-3">
+                        <img id="modal-main-img" src="" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                <div class="flex flex-col justify-between">
+                    <div>
+                        <h2 id="modal-title" class="text-2xl font-black tracking-tight text-white mb-2 uppercase"></h2>
+                        <div id="modal-price-container" class="flex items-baseline space-x-3 mb-4"></div>
+                        <p id="modal-desc" class="text-stone-400 text-sm leading-relaxed border-t border-stone-800 pt-3 mb-4"></p>
+                        
+                        <div class="mb-6">
+                            <label class="text-[11px] font-black tracking-widest text-stone-400 uppercase block mb-2">SELECT VARIANT SIZE</label>
+                            <div id="size-selector-grid" class="flex flex-wrap gap-2"></div>
+                            <span id="size-warning" class="text-red-500 text-[11px] font-bold tracking-wide mt-1 hidden block">⚠️ PLEASE CHOOSE A SIZE ARCHIVE SLUG TO PROCEED</span>
+                        </div>
+                    </div>
+                    
+                    <div class="border-t border-stone-800 pt-4 space-y-4">
+                        <div class="grid grid-cols-2 gap-2 text-xs font-mono text-stone-500">
+                            <div class="bg-stone-950 p-2.5 rounded-lg border border-stone-800">Delivery Single: ৳<span id="modal-delivery"></span></div>
+                            <div class="bg-stone-950 p-2.5 rounded-lg border border-stone-800">Total Stock: <span id="modal-total-stock" class="text-white font-bold"></span> units</div>
+                        </div>
+                        <button id="modal-add-btn" class="w-full bg-white text-black font-black py-4 rounded-xl uppercase tracking-widest text-xs shadow-lg transform active:scale-95"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="cart-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden justify-end z-50">
+        <div class="bg-stone-900 w-full max-w-md h-full p-6 shadow-2xl flex flex-col border-l border-stone-800 animate__animated animate__slideInRight animate__faster">
+            <div class="flex justify-between items-center mb-6 pb-4 border-b border-stone-800">
+                <h2 class="text-lg font-black uppercase tracking-widest">Your Bag Inventory</h2>
+                <button onclick="toggleCart()" class="text-stone-500 hover:text-white text-2xl font-light">&times;</button>
+            </div>
+            
+            <div id="cart-items" class="flex-1 overflow-y-auto space-y-3 pr-1"></div>
+            
+            <div class="border-t border-stone-800 pt-4 mt-4 space-y-2 text-sm font-semibold text-stone-400">
+                <div class="flex justify-between"><span>Items Subtotal</span><span class="text-white">৳<span id="cart-subtotal">0</span></span></div>
+                <div class="flex justify-between items-center">
+                    <span>Delivery Charge <small class="text-stone-600 font-mono block text-[10px] uppercase">(Flat Rate)</small></span>
+                    <span class="text-white">৳<span id="cart-delivery-total">0</span></span>
+                </div>
+                <div class="flex justify-between text-lg font-black text-white pt-2 border-t border-dashed border-stone-800"><span>Grand Total</span><span class="brand-red text-xl">৳<span id="cart-total">0</span></span></div>
+            </div>
+
+            <form id="checkout-form" class="space-y-3 mt-4">
+                <input type="text" id="cust-name" placeholder="Full Name" required class="w-full p-3 bg-stone-950 border border-stone-800 rounded-xl text-white text-sm">
+                <input type="tel" id="cust-phone" placeholder="Active WhatsApp Number" required class="w-full p-3 bg-stone-950 border border-stone-800 rounded-xl text-white text-sm">
+                <textarea id="cust-address" placeholder="Complete Shipping Address" required class="w-full p-3 bg-stone-950 border border-stone-800 rounded-xl text-white h-20 text-sm resize-none"></textarea>
+                <button type="submit" class="w-full bg-brand-red text-white font-black py-4 rounded-xl uppercase tracking-widest text-xs shadow-lg">COMPILE ORDER VIA WHATSAPP</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCvPQRy_219km3XnNXanExOypRjdM9yXRc",
+            authDomain: "gen-z-extreme.firebaseapp.com",
+            databaseURL: "https://gen-z-extreme-default-rtdb.firebaseio.com",
+            projectId: "gen-z-extreme",
+            storageBucket: "gen-z-extreme.firebasestorage.app",
+            messagingSenderId: "784859119707",
+            appId: "1:784859119707:web:5bc81ceee637438e8bff7e",
+            measurementId: "G-DY81M8ZESW"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        let cart = [];
+        let fetchedProducts = {};
+        let selectedSize = null;
+
+        db.ref('products').on('value', (snapshot) => {
+            const productList = document.getElementById('product-list');
+            if(!productList) return;
+            productList.innerHTML = '';
+            fetchedProducts = snapshot.val() || {};
+            
+            Object.keys(fetchedProducts).forEach((pid) => {
+                let p = fetchedProducts[pid];
+                let basePrice = parseInt(p.price || 0);
+                let discPrice = p.discountPrice ? parseInt(p.discountPrice) : null;
+                
+                let priceHtml = '';
+                if(discPrice && discPrice < basePrice) {
+                    let pct = Math.round(((basePrice - discPrice) / basePrice) * 100);
+                    priceHtml = `
+                        <div class="flex items-center space-x-2 mt-2">
+                            <span class="text-sm md:text-base font-black text-white">৳${discPrice}</span>
+                            <span class="text-xs line-through text-stone-600 font-medium">৳${basePrice}</span>
+                            <span class="text-[9px] font-bold text-red-500 bg-red-950/40 px-1.5 py-0.5 rounded border border-red-900/30">-${pct}%</span>
+                        </div>`;
+                } else {
+                    priceHtml = `
+                        <div class="flex items-center space-x-2 mt-2">
+                            <span class="text-sm md:text-base font-black text-white">৳${basePrice}</span>
+                        </div>`;
+                }
+                
+                let stockS = parseInt(p.stockS || 0);
+                let stockM = parseInt(p.stockM || 0);
+                let stockL = parseInt(p.stockL || 0);
+                let stockXL = parseInt(p.stockXL || 0);
+                let stockXXL = parseInt(p.stockXXL || 0);
+                let aggregateStock = stockS + stockM + stockL + stockXL + stockXXL;
+                
+                productList.innerHTML += `
+                    <div class="bg-stone-900 border border-stone-900 rounded-2xl overflow-hidden group flex flex-col cursor-pointer shadow-xl premium-glow animate__animated animate__fadeIn" onclick="openProductModal('${pid}')">
+                        <div class="w-full aspect-card relative bg-stone-950 overflow-hidden border-b border-stone-900">
+                            <img src="${p.image1 || 'https://via.placeholder.com/400x533'}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out">
+                            ${aggregateStock <= 0 ? `<div class="absolute inset-0 bg-black/80 backdrop-blur-xs flex items-center justify-center text-stone-400 font-black text-xs uppercase tracking-[0.2em]">SOLD OUT</div>` : ''}
+                        </div>
+                        <div class="p-4 flex flex-col flex-1">
+                            <h3 class="font-black text-stone-300 text-xs md:text-sm tracking-wider truncate uppercase group-hover:text-red-500 transition-colors duration-300">${p.name}</h3>
+                            ${priceHtml}
+                        </div>
+                    </div>`;
+            });
+        });
+
+        function openProductModal(id) {
+            let p = fetchedProducts[id];
+            if(!p) return;
+            selectedSize = null; 
+            document.getElementById('size-warning').classList.add('hidden');
+            
+            document.getElementById('modal-title').innerText = p.name;
+            document.getElementById('modal-desc').innerText = p.desc;
+            document.getElementById('modal-delivery').innerText = p.deliveryCost || '0';
+            
+            let stockS = parseInt(p.stockS || 0);
+            let stockM = parseInt(p.stockM || 0);
+            let stockL = parseInt(p.stockL || 0);
+            let stockXL = parseInt(p.stockXL || 0);
+            let stockXXL = parseInt(p.stockXXL || 0);
+            let totalStock = stockS + stockM + stockL + stockXL + stockXXL;
+            document.getElementById('modal-total-stock').innerText = totalStock;
+            
+            let basePrice = parseInt(p.price || 0);
+            let discPrice = p.discountPrice ? parseInt(p.discountPrice) : null;
+            let container = document.getElementById('modal-price-container');
+            let finalPrice = basePrice;
+            
+            if(discPrice && discPrice < basePrice) {
+                finalPrice = discPrice;
+                container.innerHTML = `
+                    <span class="text-3xl font-black brand-red">৳${discPrice}</span>
+                    <span class="text-base line-through text-stone-600 font-bold">৳${basePrice}</span>
+                    <span class="text-xs text-white bg-red-600 px-2 py-0.5 font-black uppercase tracking-widest rounded">SALE</span>`;
+            } else {
+                container.innerHTML = `<span class="text-3xl font-black text-white">৳${basePrice}</span>`;
+            }
+            
+            document.getElementById('modal-main-img').src = p.image1 || 'https://via.placeholder.com/400x533';
+
+            const sizeGrid = document.getElementById('size-selector-grid');
+            sizeGrid.innerHTML = '';
+            const sizeArr = ['S', 'M', 'L', 'XL', 'XXL'];
+            
+            sizeArr.forEach(sz => {
+                let szStock = parseInt(p[`stock${sz}`] || 0);
+                if(szStock <= 0) {
+                    sizeGrid.innerHTML += `<button disabled class="px-4 py-2.5 bg-stone-950 border border-stone-900 text-stone-700 rounded-xl text-xs font-black cursor-not-allowed line-through">${sz} (OUT)</button>`;
+                } else {
+                    sizeGrid.innerHTML += `<button id="sz-btn-${sz}" onclick="selectSizeNode('${sz}')" class="px-4 py-2.5 bg-stone-950 border border-stone-800 text-white rounded-xl text-xs font-black hover:border-red-600 transition-all">${sz} (${szStock})</button>`;
+                }
+            });
+
+            let btn = document.getElementById('modal-add-btn');
+            if(totalStock <= 0) {
+                btn.innerText = "OUT OF STOCK ARCHIVE";
+                btn.disabled = true;
+                btn.className = "w-full bg-stone-800 text-stone-600 font-black py-4 rounded-xl cursor-not-allowed uppercase text-xs";
+            } else {
+                btn.innerText = "DEPLOY TO BAG";
+                btn.disabled = false;
+                btn.className = "w-full bg-white text-black font-black py-4 rounded-xl hover:bg-brand-red hover:text-white transition-all duration-300 uppercase tracking-widest text-xs shadow-lg";
+                btn.onclick = function() {
+                    if(!selectedSize) {
+                        document.getElementById('size-warning').classList.remove('hidden');
+                        return;
+                    }
+                    addToCart(id, p.name, finalPrice, parseInt(p.deliveryCost || 0), selectedSize);
+                    closeProductModal();
+                };
+            }
+            document.getElementById('product-modal').classList.remove('hidden');
+            document.getElementById('product-modal').classList.add('flex');
+        }
+
+        function selectSizeNode(sz) {
+            selectedSize = sz;
+            document.getElementById('size-warning').classList.add('hidden');
+            ['S', 'M', 'L', 'XL', 'XXL'].forEach(s => {
+                let el = document.getElementById(`sz-btn-${s}`);
+                if(el) el.className = "px-4 py-2.5 bg-stone-950 border border-stone-800 text-white rounded-xl text-xs font-black hover:border-red-600 transition-all";
+            });
+            document.getElementById(`sz-btn-${sz}`).className = "px-4 py-2.5 bg-red-600 border border-red-600 text-white rounded-xl text-xs font-black transition-all shadow-lg";
+        }
+
+        function closeProductModal() { document.getElementById('product-modal').classList.add('hidden'); }
+        function toggleCart() { document.getElementById('cart-modal').classList.toggle('hidden'); updateCartUI(); }
+
+        function addToCart(pid, name, price, deliveryCost, size) {
+            let item = cart.find(i => i.pid === pid && i.size === size);
+            if (item) item.qty++;
+            else cart.push({pid, name, price, deliveryCost, size, qty: 1});
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            document.getElementById('cart-count').innerText = cart.reduce((sum, i) => sum + i.qty, 0);
+            let subtotal = 0, maxDeliveryCost = 0;
+            let html = '';
+            
+            cart.forEach(item => {
+                subtotal += item.price * item.qty;
+                if(item.deliveryCost > maxDeliveryCost) maxDeliveryCost = item.deliveryCost;
+                html += `
+                    <div class="flex justify-between items-center bg-stone-950 p-4 border border-stone-800 rounded-xl">
+                        <div>
+                            <div class="font-black text-white uppercase text-xs">${item.name}</div>
+                            <div class="text-[11px] text-red-500 font-mono mt-1">SIZE: ${item.size} | QTY: ${item.qty}</div>
+                        </div>
+                        <div class="font-black text-white text-sm">৳${item.price * item.qty}</div>
+                    </div>`;
+            });
+            if(cart.length === 0) maxDeliveryCost = 0;
+            document.getElementById('cart-items').innerHTML = html || '<p class="text-stone-600 text-center py-16 text-xs uppercase tracking-widest">No components loaded.</p>';
+            document.getElementById('cart-subtotal').innerText = subtotal;
+            document.getElementById('cart-delivery-total').innerText = maxDeliveryCost;
+            document.getElementById('cart-total').innerText = subtotal + maxDeliveryCost;
+        }
+
+        document.getElementById('checkout-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            if(cart.length === 0) return;
+
+            const name = document.getElementById('cust-name').value;
+            const phone = document.getElementById('cust-phone').value;
+            const address = document.getElementById('cust-address').value;
+            const orderUid = "GZ-" + Math.floor(100000 + Math.random() * 900000);
+
+            const data = {
+                orderId: orderUid, name, phone, address, items: cart,
+                subtotal: document.getElementById('cart-subtotal').innerText,
+                shipping: document.getElementById('cart-delivery-total').innerText,
+                grandTotal: document.getElementById('cart-total').innerText,
+                status: 'Pending', timestamp: Date.now()
+            };
+
+            db.ref('orders/' + orderUid).set(data).then(() => {
+                let itemSummary = cart.map(i => `- ${i.name} [Size: ${i.size}] x${i.qty}`).join('\n');
+                let txt = `*NEW INCOMING ORDER [ ${orderUid} ]*\n\n*Items:*\n${itemSummary}\n\n*Customer:* ${name}\n*Phone:* ${phone}\n*Total Due:* ৳${data.grandTotal}`;
+                window.location.href = `https://wa.me/8801764895060?text=${encodeURIComponent(txt)}`;
+                cart = []; toggleCart(); e.target.reset();
+            });
+        });
+    </script>
+    <style> @keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-100%); } } </style>
+</body>
+</html>
