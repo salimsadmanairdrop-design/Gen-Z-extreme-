@@ -350,5 +350,44 @@
         });
     </script>
     <style> @keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-100%); } } </style>
+    <script>
+    // 1. Disable Context Menu (Right Click)
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+    });
+
+    // 2. Intercept and Kill Developer Key Operations
+    document.addEventListener('keydown', function(e) {
+        // Block F12
+        if (e.key === "F12") {
+            e.preventDefault();
+            return false;
+        }
+        
+        // Block Ctrl+Shift+I (Inspect)
+        if (e.ctrlKey && e.shiftKey && e.key === "I") {
+            e.preventDefault();
+            return false;
+        }
+        
+        // Block Ctrl+Shift+J (Console)
+        if (e.ctrlKey && e.shiftKey && e.key === "J") {
+            e.preventDefault();
+            return false;
+        }
+        
+        // Block Ctrl+U (View Source Code)
+        if (e.ctrlKey && e.key === "u") {
+            e.preventDefault();
+            return false;
+        }
+
+        // Block Ctrl+S (Save Page Node)
+        if (e.ctrlKey && e.key === "s") {
+            e.preventDefault();
+            return false;
+        }
+    });
+        </script>
 </body>
 </html>
